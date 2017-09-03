@@ -1,0 +1,8 @@
+<h1>Activate Card</h1>
+  <%= form_for(@card, local: true) do |form| %>
+    <%=form.submit%>
+    <%end%>
+
+
+<%= link_to 'Show', @card %> |
+<%= link_to 'Back', cards_path %>

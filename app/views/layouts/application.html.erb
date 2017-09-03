@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MarqetaDemoApp</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= link_to 'USERS','/users'%>
+    <br>
+    <%= link_to 'CARD PRODUCTS','/card_products'%>
+    <br>
+    <%= link_to 'CARDS','/cards'%>
+    <%= yield %>
+  </body>
+</html>

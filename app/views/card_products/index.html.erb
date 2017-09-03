@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Card Products</h1>
+
+<table cellpadding="10" cellspacing="7" border="0" class="table table-striped table-bordered" id="customers_table">
+  <thead>
+    <tr>
+      <th colspan="3">CARD PRODUCTS</th>
+    </tr>
+    <tr>
+      <th> Name</th>
+      <th>Start Date</th>
+      <th>Active</th>
+      <th>Token #</th>
+      <tr>
+  </thead>
+
+  <tbody>
+    <% @card_products.each do |card_product| %>
+        <td><%=card_product.name%></td>
+        <td><%=card_product.start_date%></td>
+        <td><%=card_product.active%></td>
+        <td><%=card_product.token%></td>
+        <td><%= link_to 'Show', card_product %></td>
+        <td><%= link_to 'Edit', edit_card_product_path(card_product) %></td>
+        <td><%= link_to 'Destroy', card_product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+
+<%= link_to 'New Card Product', new_card_product_path %>
