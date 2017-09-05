@@ -10,6 +10,8 @@ class CardProductsController < ApplicationController
   # GET /card_products/1
   # GET /card_products/1.json
   def show
+    @cp = CardProduct.find(params[:id])
+    @cards = @cp.cards
   end
 
   # GET /card_products/new

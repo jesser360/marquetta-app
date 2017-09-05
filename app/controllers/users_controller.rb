@@ -11,6 +11,21 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @user = User.find(params[:id])
+    @cards = @user.cards
+
+    @user_token= 'user18471504061549'
+    @master_token = '06859a94-8cba-4146-b692-ed49675b8ba2'
+    @response = HTTParty.get("https://shared-sandbox-api.marqeta.com/v3/balances/#{@user.token}", {
+      :basic_auth => {
+        :username => 'user18471504061549',
+        :password => '06859a94-8cba-4146-b692-ed49675b8ba2'
+      },
+      :headers => {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'}
+        })
+        @balance = @response["gpa"]["available_balance"]
   end
 
   # GET /users/new

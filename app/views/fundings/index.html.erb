@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Funding History</h1>
+
+  <table cellpadding="10" cellspacing="7" border="0" class="table table-striped table-bordered" >
+    <thead>
+      <tr>
+        <th colspan="3"> Funding Transaction</th>
+      </tr>
+      <tr>
+        <th> USER</th>
+        <th>FUNDING SOURCE</th>
+        <th>AMOUNT</th>
+        <th>CURRENCY</th>
+        <tr>
+    </thead>
+
+  <tbody>
+    <% @fundings.each do |funding| %>
+      <tr>
+        <td><%=link_to funding.user.first_name, user_path(funding.user)%></td>
+        <td><%=link_to funding.funding_source.name, funding_source_path(funding.funding_source)%></td>
+        <td>$<%=funding.amount%></td>
+        <td><%=funding.currency%></td>
+        <td><%= link_to 'Show', funding %></td>
+        <td><%= link_to 'Edit', edit_funding_path(funding) %></td>
+        <td><%= link_to 'Destroy', funding, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Funding', new_funding_path %>

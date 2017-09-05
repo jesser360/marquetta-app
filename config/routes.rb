@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :fundings
+  resources :funding_sources
   resources :card_products
   resources :cards
   resources :users

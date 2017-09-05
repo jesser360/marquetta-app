@@ -1,0 +1,27 @@
+<%= form_with(model: funding, local: true) do |form| %>
+  <% if funding.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(funding.errors.count, "error") %> prohibited this funding from being saved:</h2>
+
+      <ul>
+      <% funding.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <label>Choose a User to Fund</label>
+    <%= select_tag "user_id", options_from_collection_for_select(@users, "id", "first_name"), class: "form-control required" %>
+    <br>
+    <label>Choose from a Funding Source</label>
+    <%= select_tag "funding_source_id", options_from_collection_for_select(@fundingsources, "id", "name"), class: "form-control required" %>
+    <br>
+    <label>Enter Amount</label>
+    <%= form.text_field :amount, class: "form-control ", placeholder: '1000'%>
+    <label>Enter Currency Type</label>
+    <%= form.text_field :currency, class: "form-control ", placeholder: 'USD'%>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,4 +1,36 @@
 <p id="notice"><%= notice %></p>
+<h1><%=@cp.name%></h1><br>
+<%if @cards%>
+<h3>Available cards</h3>
+<table cellpadding="10" cellspacing="7" border="0" class="table table-striped table-bordered" >
+  <thead>
+    <tr>
+      <th>TOKEN</th>
+      <th>LAST FOUR</th>
+      <th>EXPIRATION</th>
+      <th>ACTIVATED</th>
+      <tr>
+  </thead>
+
+<tbody>
+  <% @cards.each do |card| %>
+    <tr>
+      <td><%=card.token%>
+      <td><%=card.last_four%></td>
+      <td><%=card.expiration%></td>
+      <td><%=card.state%></td>
+      <td><%= link_to 'Show', card %></td>
+      <%if card.state == false%>
+        <td><%= link_to 'Activate', edit_card_path(card) %></td>
+      <%end%>
+      <td><%= link_to 'Destroy', card, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</tbody>
+</table>
+<%else%>
+<h3>No cards yet made for this user</h3>
+<%end%>
 
 <%= link_to 'Edit', edit_card_product_path(@card_product) %> |
 <%= link_to 'Back', card_products_path %>

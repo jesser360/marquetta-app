@@ -32,6 +32,9 @@ class CardsController < ApplicationController
     @card_products = CardProduct.all
     @user = User.find(card_params[:user_id])
     @card_product = CardProduct.find(card_params[:card_product_id])
+    puts"STUFF"
+    puts @user
+    puts @card_product
     @user_token= 'user18471504061549'
     @master_token = '06859a94-8cba-4146-b692-ed49675b8ba2'
     @posting = HTTParty.post("https://shared-sandbox-api.marqeta.com/v3/cards/", {
@@ -49,6 +52,8 @@ class CardsController < ApplicationController
         })
         puts @posting
         @card = Card.new
+        @card.user = @user
+        @card.card_product =@card_product
         @card.token = @posting['token']
         @card.last_four = @posting['last_four']
         @card.expiration = @posting['expiration']
