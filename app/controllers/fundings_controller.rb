@@ -59,7 +59,7 @@ class FundingsController < ApplicationController
       end
       if @posting['state'] == 'COMPLETION'
         @funding.save
-        flash[:notice] = @posting['state']
+        flash[:notice] = "Funding sent to user"
         redirect_to '/fundings'
       end
   end

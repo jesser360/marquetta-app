@@ -20,7 +20,12 @@ class CardsController < ApplicationController
         :mid => '11111',
         :card_token => @card.token,
         :amount =>@amount,
-        :is_pre_auth => false
+        :is_pre_auth => false,
+        :webhook => {
+          :endpoint => "https://3cc4e19e.ngrok.io",
+          :username => 'jesse',
+          :password => '123'
+        }
       }.to_json,
       :basic_auth => {
         :username => 'user18471504061549',
@@ -31,12 +36,14 @@ class CardsController < ApplicationController
         'Accept' => 'application/json'}
         })
         puts @posting
-        # puts @posting['transaction']['response']['memo']
-        # @posting['error_message']
-        puts "POSTING"
-        if @posting['transaction']['state'] == 'COMPLETION'
-          flash[:notice] = @posting['state']
-          redirect_to @card
+        if @posting['transaction']
+          if @posting['transaction']['state'] == 'COMPLETION'
+            flash[:notice] = @posting['state']
+            redirect_to @card
+          else
+            flash[:notice] =  @posting['error_message']
+            redirect_to '/payment/'+@card.id.to_s
+          end
         else
           flash[:notice] =  @posting['error_message']
           redirect_to '/payment/'+@card.id.to_s

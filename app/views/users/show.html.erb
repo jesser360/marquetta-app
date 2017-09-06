@@ -23,6 +23,8 @@
       <td><%= link_to 'Show', card %></td>
       <%if card.state == false%>
         <td><%= link_to 'Activate', edit_card_path(card) %></td>
+      <%else%>
+        <td><a href ='/payment/<%=card.id%>'>Make Payment</a> </td>
       <%end%>
       <td><%= link_to 'Destroy', card, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
