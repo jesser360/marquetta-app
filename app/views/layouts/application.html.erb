@@ -18,6 +18,10 @@
     <%= link_to 'FUNDING SOURCES', '/funding_sources'%>
     <br>
     <%= link_to 'FUND A USERS ACCOUNT','/fundings'%>
+    <br><br>
+    <% if flash[:notice] %>
+    <div><%=flash[:notice]%></div>
+    <% end %>
     <%= yield %>
   </body>
 </html>

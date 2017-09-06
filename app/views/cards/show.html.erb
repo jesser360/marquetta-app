@@ -1,4 +1,11 @@
 <p id="notice"><%= notice %></p>
-
-<%= link_to 'Edit', edit_card_path(@card) %> |
-<%= link_to 'Back', cards_path %>
+<% if flash[:notice] %>
+<div class="notice"><%= flash[:notice] %></div>
+<% end %>
+<br><br>
+<h1>Card Token - <%=@card.token%></h2><br>
+  <h3>User - <%=link_to @user.first_name,user_path(@user)%></h3>
+  <h3>Card Product - <%=link_to @card_product.name,card_product_path(@card_product)%></h3>
+  <a href ='/payment/<%=@card.id%>'>Make Payment</a><br>
+<%= link_to 'Edit Card', edit_card_path(@card) %> <br>
+<%= link_to 'Back to All Cards', cards_path %>

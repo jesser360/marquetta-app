@@ -1,9 +1,48 @@
 class CardsController < ApplicationController
-  before_action :set_card, only: [:show, :edit, :update, :destroy]
+  before_action :set_card, only: [:show, :edit, :update, :destroy, :sendPayment,:payment]
+  protect_from_forgery
   require 'httparty'
   include HTTParty
   # GET /cards
   # GET /cards.json
+
+  def payment
+    @card = Card.find(params[:id])
+  end
+
+  def sendPayment
+    puts @amount = payment_params[:amount]
+    @card = Card.find(params[:id])
+    @user_token= 'user18471504061549'
+    @master_token = '06859a94-8cba-4146-b692-ed49675b8ba2'
+    @posting = HTTParty.post("https://shared-sandbox-api.marqeta.com/v3/simulate/financial", {
+      :body => {
+        :mid => '11111',
+        :card_token => @card.token,
+        :amount =>@amount,
+        :is_pre_auth => false
+      }.to_json,
+      :basic_auth => {
+        :username => 'user18471504061549',
+        :password => '06859a94-8cba-4146-b692-ed49675b8ba2'
+      },
+      :headers => {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'}
+        })
+        puts @posting
+        # puts @posting['transaction']['response']['memo']
+        # @posting['error_message']
+        puts "POSTING"
+        if @posting['transaction']['state'] == 'COMPLETION'
+          flash[:notice] = @posting['state']
+          redirect_to @card
+        else
+          flash[:notice] =  @posting['error_message']
+          redirect_to '/payment/'+@card.id.to_s
+        end
+      end
+
   def index
     @cards = Card.all
   end
@@ -11,6 +50,9 @@ class CardsController < ApplicationController
   # GET /cards/1
   # GET /cards/1.json
   def show
+    @user = Card.find(params[:id])
+    @user = @card.user
+    @card_product = @card.card_product
   end
 
   # GET /cards/new
@@ -93,7 +135,7 @@ class CardsController < ApplicationController
         @card.state = true
     respond_to do |format|
       if @card.save
-        format.html { redirect_to @card, notice: 'Card was successfully activted.' }
+        format.html { redirect_to @card, notice: 'Card was successfully activated.' }
         format.json { render :show, status: :ok, location: @card }
       else
         format.html { render :edit }
@@ -101,6 +143,7 @@ class CardsController < ApplicationController
       end
     end
   end
+
 
   # DELETE /cards/1
   # DELETE /cards/1.json
@@ -121,5 +164,8 @@ class CardsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def card_params
       params.permit(:user_id,:card_product_id)
+    end
+    def payment_params
+      params.require(:payment).permit(:amount,:id)
     end
 end

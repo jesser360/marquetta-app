@@ -53,15 +53,15 @@ class FundingsController < ApplicationController
         })
         puts @posting
         @funding.token = @posting['token']
-    respond_to do |format|
-      if @funding.save
-        format.html { redirect_to @funding, notice: 'Funding was successfully created.' }
-        format.json { render :show, status: :created, location: @funding }
-      else
-        format.html { render :new }
-        format.json { render json: @funding.errors, status: :unprocessable_entity }
+      if @posting['error_message']
+        flash[:notice] =  @posting['error_message']
+        redirect_to '/fundings/new'
       end
-    end
+      if @posting['state'] == 'COMPLETION'
+        @funding.save
+        flash[:notice] = @posting['state']
+        redirect_to '/fundings'
+      end
   end
 
   # PATCH/PUT /fundings/1
