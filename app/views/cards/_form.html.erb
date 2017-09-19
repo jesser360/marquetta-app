@@ -13,7 +13,7 @@
 
   <div class="actions">
     <label>Choose a User</label>
-    <%= select_tag "user_id", options_from_collection_for_select(@users, "id", "first_name"), class: "form-control required" %>
+    <%= select_tag "user_id", options_from_collection_for_select(@users, "id", 'last_name'), class: "form-control required" %>
     <br>
     <label>Choose a Card Product Template</label>
     <%= select_tag "card_product_id", options_from_collection_for_select(@card_products, "id", "name"), class: "form-control required" %>

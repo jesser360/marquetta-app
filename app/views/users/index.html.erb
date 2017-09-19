@@ -8,7 +8,7 @@
         <th colspan="3"> USERS</th>
       </tr>
       <tr>
-        <th> FIRST NAME</th>
+        <th>EMAIL</th>
         <th>LAST NAME</th>
         <th>GENDER</th>
         <th>Token #</th>
@@ -18,13 +18,12 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%=user.first_name%></td>
-        <td><%=user.last_name%></td>
-        <td><%=user.gender%></td>
-        <td><%=user.token%>
-        <td><%= link_to 'Show '+user.first_name+'s Cards', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%=user['email']%></td>
+        <td><%=user['last_name']%></td>
+        <td><%=user['gender']%></td>
+        <td><%=user['token']%>
+        <td><%= link_to 'Show User', '/show_user/'+user['token'] %></td>
+        <td><%= link_to 'Edit', '/edit_user/'+user['token'] %> </td>
       </tr>
     <% end %>
   </tbody>

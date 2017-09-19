@@ -4,28 +4,16 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
-
+    @users = User.get_all_users
   end
 
   # GET /users/1
   # GET /users/1.json
-  def show
-    @user = User.find(params[:id])
-    @cards = @user.cards
-
-    @user_token= 'user18471504061549'
-    @master_token = '06859a94-8cba-4146-b692-ed49675b8ba2'
-    @response = HTTParty.get("https://shared-sandbox-api.marqeta.com/v3/balances/#{@user.token}", {
-      :basic_auth => {
-        :username => 'user18471504061549',
-        :password => '06859a94-8cba-4146-b692-ed49675b8ba2'
-      },
-      :headers => {
-        'Content-Type' => 'application/json',
-        'Accept' => 'application/json'}
-        })
-        @balance = @response["gpa"]["available_balance"]
+  def show_user
+    @user_token = params[:token]
+    @balance = User.get_balance(@user_token)
+    @user = User.get_user(@user_token)
+    @cards = User.get_users_cards(@user_token)
   end
 
   # GET /users/new
@@ -33,59 +21,36 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  # GET /users/1/edit
-  def edit
-  end
-
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
-
-    @user_token= 'user18471504061549'
-    @master_token = '06859a94-8cba-4146-b692-ed49675b8ba2'
-    @posting = HTTParty.post("https://shared-sandbox-api.marqeta.com/v3/users/", {
-      :body => {
-        :gender => @user.gender,
-        :first_name => @user.name,
-        :last_name => @user.last_name,
-        :address1 => "1 blank st",
-        :state => "CA",
-        :zip => "12345",
-        :city => "Oakland",
-        :country => "USA"
-      }.to_json,
-      :basic_auth => {
-        :username => 'user18471504061549',
-        :password => '06859a94-8cba-4146-b692-ed49675b8ba2'
-      },
-      :headers => {
-        'Content-Type' => 'application/json',
-        'Accept' => 'application/json'}
-        })
-        puts @posting
-        @user.token = @posting['token']
+    @posting = User.create_user(user_params)
     respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User created. Here is its token => ' + @posting["token"]}
-        format.json { render :show, status: :created, location: @user }
+      if @posting['token']
+        # @user.save
+        format.html { redirect_to users_path, notice: 'User created. Here is its token => ' + @posting["token"]}
       else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.html { redirect_to users_path, notice: @posting['error_message'] }
       end
     end
   end
 
+  # GET /users/1/edit
+  def edit_user
+    @user_token = params[:token]
+    @user = User.get_user(@user_token)
+  end
+
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
-  def update
+  def update_user
+    @user_token = params[:token]
+    @posting = User.update_user(user_params)
     respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
+      if @posting['token']
+        format.html { redirect_to users_path, notice: 'User Updated'}
       else
-        format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.html { redirect_to users_path, notice: @posting['error_message'] }
       end
     end
   end
@@ -102,12 +67,12 @@ class UsersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+    # def set_user
+    #   @user = User.find(params[:id])
+    # end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name,:last_name,:gender)
+      params.require(:user).permit(:email,:last_name,:gender)
     end
 end

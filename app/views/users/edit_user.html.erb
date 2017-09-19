@@ -1,0 +1,15 @@
+<form action="/user<%= "/#{@user['token']}"%>" method="POST"  enctype="multipart/form-data">
+  <%= "<input type=\"hidden\" name=\"_method\" value=\"PATCH\">".html_safe %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+
+  <div class="actions">
+    <label>Email</label>
+    <input type="text" class="form-control" name="user[email]" value="<%=@user['email']%>">
+    <label>Last Name</label>
+    <input type="text" class="form-control" name="user[last_name]" value="<%=@user['last_name']%>">
+    <label>Gender</label>
+    <input type="text" class="form-control" name="user[gender]" value="<%=@user['gender']%>">
+  </div>
+  <button type="submit" class="btn btn-primary">Update</button>
+</form>

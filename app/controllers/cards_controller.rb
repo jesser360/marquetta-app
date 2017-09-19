@@ -65,6 +65,15 @@ class CardsController < ApplicationController
   # GET /cards/new
   def new
     @users = User.all
+    @response = HTTParty.get("https://shared-sandbox-api.marqeta.com/v3/users", {
+      :basic_auth => {
+        :username => 'user18471504061549',
+        :password => '06859a94-8cba-4146-b692-ed49675b8ba2'
+      },
+      :headers => {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'}
+        })
     @card_products = CardProduct.all
     @card = Card.new
   end
@@ -81,7 +90,6 @@ class CardsController < ApplicationController
     @card_products = CardProduct.all
     @user = User.find(card_params[:user_id])
     @card_product = CardProduct.find(card_params[:card_product_id])
-    puts"STUFF"
     puts @user
     puts @card_product
     @user_token= 'user18471504061549'
