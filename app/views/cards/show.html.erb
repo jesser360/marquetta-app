@@ -3,7 +3,7 @@
 <div class="notice"><%= flash[:notice] %></div>
 <% end %>
 <br><br>
-<h1>Card Token - <%=@card.token%></h2><br>
+<h1>Card Token - <%=@card['token']%></h2><br>
   <h3>User - <%=link_to @user.first_name,user_path(@user)%></h3>
   <h3>Card Product - <%=link_to @card_product.name,card_product_path(@card_product)%></h3>
   <a href ='/payment/<%=@card.id%>'>Make Payment</a><br>

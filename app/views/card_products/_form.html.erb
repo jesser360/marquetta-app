@@ -12,9 +12,12 @@
   <% end %>
 
   <div class="actions">
+    <%= form.label 'Name'%>
     <%= form.text_field :name, class: "form-control ", placeholder: 'Name of Card Product'%>
+    <%= form.label 'Start Date'%>
     <%= form.text_field :start_date, class: "form-control ", placeholder: 'ex: 2017-10-05'%>
-    <%= form.check_box :active, class: "form-control ", label: 'Active?'%>
+    <%= form.label 'Active?'%>
+    <%= form.check_box :active, class: "form-control ", label: 'Active?'%><br>
     <%= form.submit %>
 
   </div>

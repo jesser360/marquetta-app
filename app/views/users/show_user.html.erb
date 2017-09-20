@@ -20,13 +20,12 @@
       <td><%=card['last_four']%></td>
       <td><%=card['expiration']%></td>
       <td><%=card['state']%></td>
-      <td><%= link_to 'Show', card %></td>
+      <td><%= link_to 'Show', '/show_card/'+card['token'] %></td>
       <%if card['state'] == 'UNACTIVATED'%>
-        <td><%= link_to 'Activate'%></td>
+        <td><%= link_to 'Activate','/activate_card/'+card['token']%></td>
       <%else%>
-        <td><%= link_to 'Make Payment'%></a> </td>
+        <td><%= link_to 'Make Payment', '/payment/'+card['token']%></a> </td>
       <%end%>
-      <td><%= link_to 'Destroy', card, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
   <% end %>
 </tbody>

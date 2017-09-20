@@ -2,8 +2,8 @@
 <div class="notice"><%= flash[:notice] %></div>
 <% end %>
 <p id="notice"><%= notice %></p>
-<h1>Make a payment with card - <%=@card%></h1>
-<form action="/payment<%= "/#{@card.id}"%>" method="POST" >
+<h1>Make a payment with card - <%=@card['token']%></h1>
+<form action="/payment<%= "/#{@card['token']}"%>" method="POST" >
   <label>Amount to Pay</label>
   <input type="text" placeholder="100" name="payment[amount]" value="">
   <button type="submit" >Send Payment</button>

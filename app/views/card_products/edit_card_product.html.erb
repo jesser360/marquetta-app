@@ -1,0 +1,13 @@
+<form action="/card_product<%= "/#{@cp['token']}"%>" method="POST"  enctype="multipart/form-data">
+  <%= "<input type=\"hidden\" name=\"_method\" value=\"PATCH\">".html_safe %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+
+  <div class="actions">
+    <label>Name</label>
+    <input type="text" class="form-control" name="card_product[name]" value="<%=@cp['name']%>">
+    <label>Start Date</label>
+    <input type="text" class="form-control" name="card_product[start_date]" placeholder="2017-10-05" value="<%=@cp['start_date']%>">
+  </div>
+  <button type="submit" class="btn btn-primary">Update</button>
+</form>
